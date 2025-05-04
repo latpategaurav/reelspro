@@ -20,8 +20,9 @@ export interface IVideo{
         height: number,
         width: number,
         quality?: number 
-    }
-   
+    };
+    createdAt?:Date;
+    updatedAt?: Date;
 }
 
 const videoSchema = new Schema<IVideo>({
@@ -29,6 +30,17 @@ const videoSchema = new Schema<IVideo>({
     description: {type: String, required: true},
     videoUrl: {type: String, required: true},
     thumbnailUrl: {type: String, required: true},
-    control: {type: Boolean, required: true}
+    control: {type: Boolean, required: true},
+    transformation:{
+        height: {type: Number, default: VIDEO_DIMENSIONS.height},
+        width: {type: Number, default: VIDEO_DIMENSIONS.width},
+        quality:{type: Number, min:1, max:100}
+    }
+},{
+    timestamps: true
 })
-   
+
+const Video = models?.Video || model<IVideo>("Video", videoSchema)
+
+ export default Video;
+
